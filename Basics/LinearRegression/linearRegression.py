@@ -24,7 +24,7 @@ def PlotDataWithEQ(x,y,m,b):
     plt.show()
 
 #least mean squares
-def LMSoffline(X,t,N):
+def LMS(X,t,N):
     # sum of : X, t ,X*t ,X^2
     # y = mx + b
     # slope : m = (nsumof(xy) - sumof(x) * sumof(y))/(n(sumof(x^2) - (sumof(x))^2))
@@ -43,7 +43,7 @@ def LMSoffline(X,t,N):
     
     return m,b
 
-def LMSoffline2(X,t,N):
+def LMS2(X,t,N):
     w = 0
     b = 0
 
@@ -65,7 +65,9 @@ def LMSoffline2(X,t,N):
         w += eta * dw / N
         b += eta * db / N
 
-        return w,b
+    return w,b
+    
+
     
     
 N = 100
@@ -73,10 +75,12 @@ Features = 1
 Noise = 15.0
 X, t = make_regression(n_samples=N, n_features=1, noise=15.0)
 
-m,b = LMSoffline(X,t,N)
+
+m,b = LMS(X,t,N)
 PlotDataWithEQ(X,t,m,b)
 
-m,b = LMSoffline2(X,t,N)
+
+m,b = LMS2(X,t,N)
 PlotDataWithEQ(X,t,m,b)
 
 
