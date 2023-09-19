@@ -43,7 +43,7 @@ def LMSoffline(X,t,N):
     
     return m,b
 
-def LMSonline(X,t,N):
+def LMSoffline2(X,t,N):
     w = 0
     b = 0
 
@@ -73,10 +73,10 @@ Features = 1
 Noise = 15.0
 X, t = make_regression(n_samples=N, n_features=1, noise=15.0)
 
-m,b = LMSonline(X,t,N)
+m,b = LMSoffline(X,t,N)
 PlotDataWithEQ(X,t,m,b)
 
-m,b = LMSoffline(X,t,N)
+m,b = LMSoffline2(X,t,N)
 PlotDataWithEQ(X,t,m,b)
 
 
