@@ -67,7 +67,16 @@ def LMS2(X,t,N):
 
     return w,b
     
-
+def LMSdelta(X,t,N):
+    w = 0
+    b = 0
+    eta = 0.1
+    for epochs in range(100):
+        for i in range(N):
+            y = w*X[i] + b
+            w += eta * (t[i]-y[i])*X[i]
+            b += eta * (t[i]-y[i])
+            
     
     
 N = 100
@@ -83,10 +92,15 @@ PlotDataWithEQ(X,t,m,b)
 m,b = LMS2(X,t,N)
 PlotDataWithEQ(X,t,m,b)
 
+#scikit learn
+from sklearn.linear_model import LinearRegression
 
-
+reg = LinearRegression()
+reg.fit(X,t)
+y = reg.predict(X)
    
-
+m,b = LMSdelta(X,t,N)
+PlotDataWithEQ(X,t,m,b)
 
 
 
