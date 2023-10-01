@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from multiprocessing import Process
+import functions
 
 #inputs X, desired outputs t, desired degree deg
 #w = np.polyfit(X,t,deg)
@@ -13,17 +14,6 @@ def warn(*args, **kwargs):
     pass
 import warnings
 warnings.warn = warn
-
-def create_dataset(N, noise):
-    #Creates a dataset of N points generated from x*sin(x) plus some noise.
-    
-    x = np.linspace(0, 10, 300)
-    rng = np.random.default_rng()
-    rng.shuffle(x)
-    x = np.sort(x[:N])
-    t = x * np.sin(x) + noise*rng.uniform(-1.0, 1.0, N)
-    
-    return x, t
 
 def mseCalculation(X,t):
     training_mse=[]
@@ -40,7 +30,7 @@ def mseCalculation(X,t):
     return training_mse,degrees
 
 N = 16
-X, t = create_dataset(N, noise=0.2)
+X, t = functions.create_dataset(N, noise=0.2)
 
 x = np.linspace(0, 10, 100)#evenly scatter values 0-10 on 100
 #plt.plot(x,x*np.sin(x),label = "Ground Truth")
