@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from multiprocessing import Process
 
 from sklearn.datasets import fetch_california_housing
 from sklearn.linear_model import LinearRegression
@@ -19,24 +20,38 @@ def PlotDataAndPredictions(a,b,y):
         plt.title(dataset.feature_names[i])
     plt.show()
 
+if __name__ == '__main__':
 
-dataset = fetch_california_housing()
-X = dataset.data
-t = dataset.target
+    dataset = fetch_california_housing()
+    X = dataset.data
+    t = dataset.target
 
-print(X.shape)
-print(t.shape)
-print(dataset.DESCR)
+    print(X.shape)
+    print(t.shape)
+    print(dataset.DESCR)
 
-#PlotAllDataIndividualy(X,t)
+    #PlotAllDataIndividualy(X,t)
 
-#make LinearRegression
-reg = LinearRegression()
-reg.fit(X,t)
-y = reg.predict(X)
+    #make LinearRegression
 
-mse = np.mean((t-y)**2)
-print(mse)
+    #calculations without normalization
+    reg = LinearRegression()
+    reg.fit(X,t)
+    y = reg.predict(X)
 
+    #calculations with normalization
+    X_normalized = (X - X.mean(axis=0))/X.std(axis=0)
+    reg.fit(X_normalized,t)
+    z=reg.predict(X_normalized)
+    
+    p1=Process(target=PlotDataAndPredictions,args=(X,t,y))
+    p2=Process(target=PlotDataAndPredictions,args=(X,t,z))
 
-PlotDataAndPredictions(X,t,y)
+    p1.start()
+    p2.start()
+
+    plt.figure(figsize=(12, 5))
+    plt.plot(np.abs(reg.coef_))
+    plt.xlabel("Feature")
+    plt.ylabel("Weight")
+    plt.show()
