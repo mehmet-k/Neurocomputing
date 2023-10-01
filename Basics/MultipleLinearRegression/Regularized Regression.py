@@ -36,6 +36,7 @@ if __name__ == '__main__':
     t = dataset.target
     X_normalized = (X - X.mean(axis=0))/X.std(axis=0)
 
+    #smaller alpha values work better for Lasso
     reg = Lasso(alpha=0.1)
     reg.fit(X_normalized,t)
     y = reg.predict(X_normalized)
@@ -46,10 +47,10 @@ if __name__ == '__main__':
     PlotFeatureWeight(reg)
     p1.terminate()  
     
+    #greater alpha values work better for Ridge
     reg = Ridge(alpha=10)
     reg.fit(X_normalized,t)
     y = reg.predict(X_normalized)
 
     PlotDataAndPredictions(X,t,y)
-
     PlotFeatureWeight(reg)
